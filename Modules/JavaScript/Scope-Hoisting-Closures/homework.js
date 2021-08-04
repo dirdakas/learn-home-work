@@ -10,13 +10,15 @@ console.log(`
 `);
 
 const runningAverage = () => {
-  let list = [];
+  let sum = 0;
+  let timesCalled = 0;
 
   return (newVal) => {
     if (newVal) {
-      list.push(newVal);
+      sum += newVal;
+      timesCalled ++;
   
-      return list.reduce((a, b) => a + b, 0) / list.length;
+      return sum / timesCalled;
     }
   };
 };
