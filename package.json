@@ -1,0 +1,25 @@
+{
+  "name": "learn-home-work",
+  "version": "1.0.0",
+  "description": "## Storage of small examples, homework tasks etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dirdakas/learn-home-work.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dirdakas/learn-home-work/issues"
+  },
+  "homepage": "https://github.com/dirdakas/learn-home-work#readme",
+  "dependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/node": "^7.14.9",
+    "@babel/preset-env": "^7.14.9"
+  }
+}
