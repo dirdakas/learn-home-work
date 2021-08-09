@@ -21,5 +21,8 @@
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.9",
     "@babel/preset-env": "^7.14.9"
+  },
+  "devDependencies": {
+    "commonjs": "0.0.1"
   }
 }
