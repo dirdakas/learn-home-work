@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <script>
+      console.log(`
+        Task
+
+          1. Create a table 100x100.
+            Compare performance in adding listener to each cell click and event delegation
+
+          2. Apply drag&drop functionality to each cell.
+      `)
+
+      var dragableItem;
+
+      function allowDrop(e) {
+        console.log('allowDrop on index::', e.target.innerText)
+        e.preventDefault();
+      }
+
+      function droping(e) {
+        console.log('--- drop on:', e.target.innerText, ' new value:', dragableItem.innerText)
+        e.preventDefault();
+        if (e.stopPropagation) {
+          e.stopPropagation();
+        }
+
+        var oldVal = e.target.innerText;
+        e.target.innerText = dragableItem.innerText;
+
+        dragableItem.innerText = oldVal;
+      }
+
+      function dragStart(e) {
+        dragableItem = e.target;
+        console.log('----- dragStart on:::', dragableItem.innerText)
+      }
+
+      function createTable(size) {
+        const tableElement = document.createElement('table');
+        tableElement.style = 'border-collapse: collapse;';
+
+        let index = 0;
+        
+        for (let i = 0; i < size; i++) {   
+          const row = document.createElement('tr')
+
+          for (let j = 0; j < size; j++) {
+            index++;
+            const cell = document.createElement('td');
+            cell.innerText = index;
+            cell.style = 'border: 1px solid black; text-align: center; padding: 5px;';
+
+            cell.setAttribute('draggable', true);
+            row.appendChild(cell);
+          }
+
+          tableElement.appendChild(row)
+        }
+
+        tableElement.addEventListener('dragstart', dragStart, false);
+        tableElement.addEventListener('drop', droping, false);
+        tableElement.addEventListener('dragover', allowDrop, false);
+
+        document.body.appendChild(tableElement);
+      }
+
+      createTable(100);
+    </script>
+  </body>
+</html>
