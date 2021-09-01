@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "currency": "DM",
+      "oneOnOne": 1.23
+    },
+    {
+      "currency": "Belg. Franc",
+      "oneOnOne": 40.34
+    },
+    {
+      "currency": "Franz. Franc",
+      "oneOnOne": 6.56
+    },
+    {
+      "currency": "Ir. Pfund",
+      "oneOnOne": 0.79
+    }
+  ]
+}
