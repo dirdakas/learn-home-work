@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "module": "commonjs",
-    "target": "ES5",
+    "target": "es6",
     "jsx": "preserve",
     "strictFunctionTypes": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "outDir": "out"
   },
   "exclude": [
     "node_modules",
