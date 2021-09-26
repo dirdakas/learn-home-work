@@ -1,5 +1,6 @@
 import { Controller } from './controller';
+import { publishData } from './dataService';
 
-const controller = new Controller();
-controller.init();
-console.log(document.body);
+publishData();
+
+const app = new Controller();

@@ -21,14 +21,18 @@
     "@babel/core": "^7.14.8",
     "@babel/node": "^7.14.9",
     "@babel/preset-env": "^7.14.9",
-    "http-server": "^13.0.2"
+    "@mnasyrov/pubsub": "^0.2.4",
+    "http-server": "^13.0.2",
+    "lite-server": "^2.6.1",
+    "pubsub-js": "^1.9.3",
+    "systemjs": "^6.10.3"
   },
   "devDependencies": {
     "@types/jest": "^27.0.0",
     "commonjs": "0.0.1",
     "jest": "^27.0.6",
     "ts-jest": "^27.0.4",
-    "ts-node": "^10.2.0",
+    "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
   }
 }

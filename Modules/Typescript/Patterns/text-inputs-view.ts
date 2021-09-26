@@ -1,49 +1,65 @@
-import { InputInterface, canvasId } from './utils';
+import { PubSub } from './pubsub';
+import { canvasId, EventEnum, InputInterface, resId, resValId, singleInputModel, valueId } from './utils';
 
 export class TextInputsView {
   singleInput: boolean = true;
   readonly defaultMultipleVal: number = 100;
 
-  constructor(singleInput: boolean) {
-    this.singleInput = singleInput;
+  private currModel: InputInterface;
+
+  constructor(isSingle: boolean) {
+    this.singleInput = isSingle;
+    this.currModel = singleInputModel;
   }
 
   paint = (inputs: InputInterface[]) => {
-    console.log('TextInputs');
-    inputs.forEach(item => this.createInput(item));
+    inputs.forEach((item, index) => this.createInput(item, index));
   }
 
-  private createInput(input: InputInterface): void {
+  private createInput(input: InputInterface, index: number): void {
     const wrapper = document.createElement('div');
     wrapper.setAttribute('style', 'border: 4px solid blue; padding: 15px');
 
     
-    const firstLine: HTMLDivElement = this.getFirstLine(input);
+    const firstLine: HTMLDivElement = this.getFirstLine(input, index);
     wrapper.append(firstLine);
 
-    if (!this.singleInput) {
-      const secondLine = this.getSecondLine(input);
-      wrapper.append(secondLine);
-    }
-
     const canvas = document.getElementById(canvasId);
-    console.log('canvas', canvas);
     canvas.append(wrapper);
   }
 
-  private getFirstLine(input: InputInterface): HTMLDivElement {
+  private getFirstLine(input: InputInterface, index: number): HTMLDivElement {
     const firstLine = document.createElement('div');
-    const firstLineSpan = document.createElement('span');
-    firstLineSpan.innerText = `1 Euro is `;
+    const firstLineDiv = document.createElement('div');
+    const single = document.createElement('input');
+    const value = this.currModel.value.toString();
+    single.setAttribute('value', value);
+    single.setAttribute('type', `number`);
+    single.setAttribute('id', `${valueId}${index}`);
+    this.setChangeEvent(single, input.oneOnOne);
+
+    const singleText = document.createElement('div');
+    const singleValSpan = document.createElement('span');
+    const singleTextSpan = document.createElement('span');
+    singleValSpan.innerText = `${value}`;
+    singleValSpan.setAttribute('id', `${resValId}${index}`);
+    singleTextSpan.innerText = ` Euro is `;
+
+    singleText.append(singleValSpan);
+    singleText.append(singleTextSpan);
+
+    firstLineDiv.append(single);
+    firstLineDiv.append(singleText);
 
     const firstLineInput = document.createElement('input');
     firstLineInput.setAttribute('value', input.oneOnOne.toString());
+    firstLineInput.setAttribute('id', `${resId}${index}`);
     firstLineInput.disabled = true;
 
     const secondLineSpan = document.createElement('span');
     secondLineSpan.innerText = ` ${input.currency}`;
 
-    firstLine.append(firstLineSpan);
+    firstLine.append(firstLineDiv);
     firstLine.append(firstLineInput);
     firstLine.append(secondLineSpan);
 
@@ -89,16 +105,17 @@ export class TextInputsView {
     return secondLine;
   }
 
-  // something is off if toggle first and then second (or vice versa) inputs (stops changing)
   private setChangeEvent(element: HTMLInputElement, excangeRate: number): void {
     element.onchange = (event) => {
       const target: any = event.target;
       let id: string = target.id;
-      id = id.includes('E-') ? id.replace('E-', 'C-') : id.replace('C-', 'E-');
-      if (id.includes('E-')) {
-        document.getElementById(id).setAttribute('value', (Number(target.value) / excangeRate).toFixed(2));
+      if (this.singleInput) {
+        PubSub.pub(`${EventEnum.SingleEuro}-update`, target.value);
       } else {
-        document.getElementById(id).setAttribute('value', (Number(target.value) * excangeRate).toFixed(2));
+        PubSub.pub(`${EventEnum.MultipleEuro}-update`, {
+          value: target.value,
+          id: id
+        });
       }
     }
   }
